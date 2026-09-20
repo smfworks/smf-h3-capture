@@ -34,7 +34,7 @@ bash "${HERMES_HOME:-$HOME/.hermes}/plugins/smf-h3-capture/install.sh"
 
 `install.sh` enables the plugin on `$HOME/.hermes` **and** every `profiles/*/plugins` home Desktop may spawn, copies `desktop/plugin.js` into `$HOME/.hermes/desktop-plugins/smf-h3-capture/` (what packaged Electron actually loads), and tells you to **quit and relaunch Desktop**.
 
-**⌘K → Reload desktop plugins is JS only.** It does not mount `plugin_api.py`. If H3 Capture says **Backend not reachable** while you are on Local, the serve process started before enable — quit Desktop and launch it again. Live still embeds Vercel without the backend.
+**⌘K → Reload desktop plugins is JS only.** It does not mount `plugin_api.py`. Local still iframes `http://127.0.0.1:5173/` when that probe is unread — a failed `GET /status` is not a hard gate. Quit Desktop and relaunch from the menu only if you want the optional `:5173` / `:4173` probe badge. Live already embeds Vercel without the backend.
 
 Do **not** run `hermes desktop` to relaunch if you already have the packaged Linux binary. That command rewrites the `.desktop` `Exec=` and can prompt for `chrome-sandbox` sudo. Use the menu entry / `…/linux-unpacked/Hermes --no-sandbox`.
 
