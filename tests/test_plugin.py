@@ -44,6 +44,8 @@ def test_desktop_plugin_embeds_live_and_local_urls():
     assert "iframe" in js
     assert "Live" in js and "Local" in js
     assert "does not sync" in js or "does not invent" in js
+    assert ".$iframeNonce.get(" not in js
+    assert ".$source.get(" not in js
 
 
 def test_desktop_plugin_does_not_port_nine_gates():

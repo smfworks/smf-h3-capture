@@ -42,6 +42,13 @@ const $source = atom(readStoredSource())
 const $iframeError = atom(false)
 const $iframeNonce = atom(0)
 const $forceEmbed = atom(false)
+let iframeNonce = 0
+
+function remountFrame() {
+  iframeNonce += 1
+  $iframeError.set(false)
+  $iframeNonce.set(iframeNonce)
+}
 
 function readStoredSource() {
   try {
@@ -55,9 +62,8 @@ function readStoredSource() {
 
 function persistSource(next) {
   $source.set(next)
-  $iframeError.set(false)
   $forceEmbed.set(false)
-  $iframeNonce.set($iframeNonce.get() + 1)
+  remountFrame()
   try {
     if (typeof window !== 'undefined' && window.localStorage) {
       window.localStorage.setItem(SOURCE_KEY, next)
@@ -249,8 +255,7 @@ function EmbedFrame({ url, title }) {
               size: 'sm',
               onClick: () => {
                 haptic('tap')
-                $iframeError.set(false)
-                $iframeNonce.set($iframeNonce.get() + 1)
+                remountFrame()
               },
               children: 'Retry',
             }),
@@ -313,17 +318,16 @@ function LocalMissing({ backendDown, onRetry }) {
             },
             children: 'Use Live',
           }),
-          jsx(Button, {
-            variant: 'ghost',
-            size: 'sm',
-            onClick: () => {
-              haptic('tap')
-              $forceEmbed.set(true)
-              $iframeError.set(false)
-              $iframeNonce.set($iframeNonce.get() + 1)
-            },
-            children: 'Embed 5173 anyway',
-          }),
+            jsx(Button, {
+              variant: 'ghost',
+              size: 'sm',
+              onClick: () => {
+                haptic('tap')
+                $forceEmbed.set(true)
+                remountFrame()
+              },
+              children: 'Embed 5173 anyway',
+            }),
         ],
       }),
     ],
