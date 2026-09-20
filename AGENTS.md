@@ -10,7 +10,7 @@ For Hermes/OpenClaw installing this repo on a user's machine.
 
 ## Do not
 
-- Do not treat ⌘K → Reload desktop plugins as a backend remount. That is JS only. **Backend not reachable** means the serve process predates enable — the pane cannot invent a capture pack to fill the gap.
+- Do not treat ⌘K → Reload desktop plugins as a backend remount. That is JS only. Local still embeds `http://127.0.0.1:5173/` when `/status` is unread. Quit/relaunch is only for the optional probe badge — do not treat a missing backend as a reason to invent a pack.
 - Do not run `hermes desktop` to relaunch if a packaged Electron binary already exists (`…/linux-unpacked/Hermes --no-sandbox`). `hermes desktop` rewrites the `.desktop` `Exec=` and can prompt for `chrome-sandbox` sudo.
 - Do not `hermes serve --stop` (kills every serve on the box). Do not kill this chat's backend from inside the same Desktop window unless the user asked for a relaunch.
 - Do not port the nine-gate pack builder into `plugin.js`. Embed the existing SPA (`https://h3-longform-capture.vercel.app` or local Vite).

@@ -48,6 +48,22 @@ def test_desktop_plugin_embeds_live_and_local_urls():
     assert ".$source.get(" not in js
 
 
+def test_desktop_plugin_local_does_not_block_on_backend_unread():
+    js = (ROOT / "desktop" / "plugin.js").read_text(encoding="utf-8")
+    assert "if (localMode && !forceEmbed && (backendDown || localDown))" not in js
+    assert "if (localMode && !forceEmbed && localDown)" in js
+    assert "if (localMode && isLoading && !forceEmbed && !backendDown)" in js
+    assert "Local probe offline" in js
+    assert "embedding 5173 anyway" in js
+    assert "Local Vite is not reachable" in js
+    assert "Backend not reachable" not in js
+    assert "Embed 5173 anyway" in js
+    assert "Use Live" in js
+    assert "Retry" in js
+    assert "embedUrl = LOCAL_DEV_URL" in js
+    assert "ctx.rest('/status')" in js
+
+
 def test_desktop_plugin_does_not_port_nine_gates():
     js = (ROOT / "desktop" / "plugin.js").read_text(encoding="utf-8")
     for forbidden in (

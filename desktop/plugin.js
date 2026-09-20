@@ -288,11 +288,10 @@ function EmbedFrame({ url, title }) {
   })
 }
 
-function LocalMissing({ backendDown, onRetry }) {
-  const title = backendDown ? 'Backend not reachable' : 'Local Vite is not reachable'
-  const description = backendDown
-    ? 'Enable H3 Capture in Settings → Plugins, then quit Hermes Desktop and relaunch from the menu. Reload desktop plugins is JS only. This pane cannot invent a pack while the backend is unread.'
-    : 'Nothing is listening on http://127.0.0.1:5173/ (npm run dev) or http://127.0.0.1:4173/ (npm run preview) in h3-longform-capture/app. Start Vite there, or switch to Live. This pane does not invent pack content.'
+function LocalMissing({ onRetry }) {
+  const title = 'Local Vite is not reachable'
+  const description =
+    'Nothing is listening on http://127.0.0.1:5173/ (npm run dev) or http://127.0.0.1:4173/ (npm run preview) in h3-longform-capture/app. Start Vite there, or switch to Live. This pane does not invent pack content. Quit Hermes Desktop and relaunch from the menu only if you want the optional local-probe badge — Reload desktop plugins is JS only and does not remount plugin_api.'
   return jsxs('div', {
     className: 'flex h-full flex-col items-center justify-center gap-3 p-8',
     children: [
@@ -318,16 +317,16 @@ function LocalMissing({ backendDown, onRetry }) {
             },
             children: 'Use Live',
           }),
-            jsx(Button, {
-              variant: 'ghost',
-              size: 'sm',
-              onClick: () => {
-                haptic('tap')
-                $forceEmbed.set(true)
-                remountFrame()
-              },
-              children: 'Embed 5173 anyway',
-            }),
+          jsx(Button, {
+            variant: 'ghost',
+            size: 'sm',
+            onClick: () => {
+              haptic('tap')
+              $forceEmbed.set(true)
+              remountFrame()
+            },
+            children: 'Embed 5173 anyway',
+          }),
         ],
       }),
     ],
@@ -349,6 +348,12 @@ function CapturePane({ ctx }) {
   const localUrl = localTarget(status)
   const backendDown = Boolean(localMode && error && !data)
   const localDown = Boolean(localMode && status && status.local && status.local.reachable === false)
+  const probeUnread = Boolean(
+    localMode &&
+      !localUrl &&
+      !localDown &&
+      (backendDown || !status || !status.local || status.local.reachable == null),
+  )
 
   let embedUrl = LIVE_URL
   let badge = 'Live'
@@ -359,13 +364,18 @@ function CapturePane({ ctx }) {
     } else if (localUrl) {
       embedUrl = localUrl
       badge = localUrl === LOCAL_PREVIEW_URL ? 'Preview' : 'Local'
-    } else {
+    } else if (localDown) {
       embedUrl = ''
+      badge = 'Local'
+    } else {
+      // Backend unread or status unknown — /status is optional. Live already
+      // embeds without it; Local still iframes 5173 until the iframe fails.
+      embedUrl = LOCAL_DEV_URL
       badge = 'Local'
     }
   }
 
-  if (localMode && isLoading && !forceEmbed) {
+  if (localMode && isLoading && !forceEmbed && !backendDown) {
     return jsxs('div', {
       className: 'flex h-full min-h-0 flex-col',
       children: [
@@ -385,14 +395,14 @@ function CapturePane({ ctx }) {
     })
   }
 
-  if (localMode && !forceEmbed && (backendDown || localDown)) {
+  // Confirmed Vite-down only. A failed ctx.rest('/status') must not block Local.
+  if (localMode && !forceEmbed && localDown) {
     return jsxs('div', {
       className: 'flex h-full min-h-0 flex-col',
       children: [
         jsx(Chrome, { source, embedUrl: '', badge: 'Local' }),
         jsx(Separator, {}),
         jsx(LocalMissing, {
-          backendDown,
           onRetry: () => {
             $forceEmbed.set(false)
             $iframeError.set(false)
@@ -412,7 +422,13 @@ function CapturePane({ ctx }) {
             className: 'px-4 text-[0.625rem] text-(--ui-text-quaternary)',
             children: 'updating local probe',
           })
-        : null,
+        : probeUnread
+          ? jsx('div', {
+              className: 'px-4 text-[0.625rem] text-(--ui-text-quaternary)',
+              children:
+                'Local probe offline — embedding 5173 anyway. Quit and relaunch Desktop if you want the :5173/:4173 badge.',
+            })
+          : null,
       jsx(Separator, {}),
       jsx(EmbedFrame, { url: embedUrl, title: 'H3 Capture Pack' }),
     ],
