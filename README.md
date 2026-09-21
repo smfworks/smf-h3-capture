@@ -89,7 +89,7 @@ smf-h3-capture/
 | `GET /status` | Report live / local / preview URLs. Probe `127.0.0.1:5173` then `:4173` only. No pack JSON. |
 | `GET /health` | `{ status: ok, plugin }` |
 
-The iframe uses the same sandbox as SMF App Launcher (`allow-scripts allow-same-origin allow-forms allow-popups allow-downloads`) so the SPA can keep `localStorage` and export a zip.
+The iframe sandbox is `allow-scripts allow-same-origin allow-forms allow-popups allow-downloads allow-modals` (the SMF App Launcher set, plus `allow-modals`) so the SPA can keep `localStorage`, export a zip, and open native `confirm` / `alert` / `prompt` dialogs.
 
 ## Tests
 

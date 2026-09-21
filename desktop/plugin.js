@@ -37,7 +37,7 @@ const PACK_NOTE =
   'Packs stay in the SPA’s localStorage (smf.h3-longform-capture.pack.v2 as shipped by aigc-production-flow). This pane does not sync them.'
 
 const SOURCE_KEY = 'smf-h3-capture.source'
-const IFRAME_SANDBOX = 'allow-scripts allow-same-origin allow-forms allow-popups allow-downloads'
+const IFRAME_SANDBOX = 'allow-scripts allow-same-origin allow-forms allow-popups allow-downloads allow-modals'
 
 const $source = atom(readStoredSource())
 const $iframeError = atom(false)
