@@ -1,18 +1,20 @@
 # SMF H3 Capture — Hermes Desktop Plugin
 
-A [Hermes Agent](https://github.com/NousResearch/hermes-agent) desktop plugin that puts the **H3 Capture Pack Builder** in a wide column to the right of chat. It **embeds** the existing Vite/React SPA — it does not rewrite the nine-gate UI into `plugin.js`, and it does not invent packs.
+A [Hermes Agent](https://github.com/NousResearch/hermes-agent) desktop plugin that puts **AIGC Production Flow** in a wide column to the right of chat. It **embeds** the existing Vite/React SPA — it does not rewrite the nine-gate UI into `plugin.js`, and it does not invent packs.
 
-App: [h3-longform-capture](https://github.com/smfworks/h3-longform-capture) · live [h3-longform-capture.vercel.app](https://h3-longform-capture.vercel.app) · bible [Lock the bible before the GPU](https://www.smfclearinghouse.com/blog/2026-09-17-h3-longform-capture-bible)
+App: [aigc-production-flow](https://github.com/smfworks/aigc-production-flow) · live [aigc-production-flow.vercel.app](https://aigc-production-flow.vercel.app) · bible (historical companion) [Lock the bible before the GPU](https://www.smfclearinghouse.com/blog/2026-09-17-h3-longform-capture-bible)
+
+Plugin id remains `smf-h3-capture` (this Hermes plugin repo is not renamed). The product SPA moved from `smfworks/h3-longform-capture` to `smfworks/aigc-production-flow`.
 
 ## What it does
 
-- **Right pane** — H3 Capture Pack, docked to the right of the workspace (`720px`)
-- **Sidebar + palette** — H3 Capture, plus ⌘K → **Open H3 Capture** / **Open H3 Capture pane**
-- **Live** — iframe `https://h3-longform-capture.vercel.app` (default)
-- **Local** — iframe `http://127.0.0.1:5173/` (`npm run dev` in `h3-longform-capture/app`). If that port is down, the optional backend probe also checks Vite preview at `http://127.0.0.1:4173/` (`npm run preview`)
-- **GitHub / Bible** — repo and Clearinghouse writeup
+- **Right pane** — AIGC Production Flow, docked to the right of the workspace (`720px`)
+- **Sidebar + palette** — AIGC Flow, plus ⌘K → **Open AIGC Production Flow** / **Open AIGC Production Flow pane**
+- **Live** — iframe `https://aigc-production-flow.vercel.app` (default)
+- **Local** — iframe `http://127.0.0.1:5173/` (`npm run dev` in `aigc-production-flow/app`). If that port is down, the optional backend probe also checks Vite preview at `http://127.0.0.1:4173/` (`npm run preview`)
+- **GitHub / Bible** — product repo and Clearinghouse writeup (bible URL is the historical companion; that blog is not rewritten here)
 - **Honesty** — if the iframe fails or local Vite is unreachable, the pane shows an error. Packs are never invented
-- **Packs stay in the SPA** — autosave is the app's `localStorage` key `smf.h3-longform-capture.pack.v2`. This pane does not read or sync them into Hermes
+- **Packs stay in the SPA** — autosave is still the app's `localStorage` key `smf.h3-longform-capture.pack.v2` as shipped by aigc-production-flow. This pane does not read, migrate, or sync them into Hermes
 
 Not in scope: Spark / Comfy / MiniMax calls, publishing likeness stills or MP4s, or adding a launcher-only row to `smf-app-launcher`.
 
@@ -40,8 +42,8 @@ Do **not** run `hermes desktop` to relaunch if you already have the packaged Lin
 
 Then:
 
-1. Settings → Plugins → H3 Capture → on
-2. The **H3 Capture Pack** pane on the right of chat, or Sidebar → **H3 Capture**, or ⌘K → Open H3 Capture pane
+1. Settings → Plugins → AIGC Flow → on
+2. The **AIGC Production Flow** pane on the right of chat, or Sidebar → **AIGC Flow**, or ⌘K → Open AIGC Production Flow pane
 
 ### Give this to a Hermes agent
 
@@ -52,14 +54,15 @@ Enable on $HOME/.hermes and every profiles/*/ that already has a plugins dir.
 Copy desktop/plugin.js to $HOME/.hermes/desktop-plugins/smf-h3-capture/.
 Do not run hermes desktop. Do not kill this chat from inside it.
 Tell me to quit Hermes Desktop and relaunch from the menu so plugin_api.py mounts.
+Embed Live https://aigc-production-flow.vercel.app or Local Vite from aigc-production-flow/app. Do not port the pack builder.
 ```
 
 ## Live vs Local
 
 | Button | Embed | When to use |
 |--------|--------|-------------|
-| **Live** | `https://h3-longform-capture.vercel.app` | Default. Hosted pack builder. |
-| **Local** | `http://127.0.0.1:5173/` | Checkout [h3-longform-capture](https://github.com/smfworks/h3-longform-capture), then `cd app && npm i && npm run dev`. |
+| **Live** | `https://aigc-production-flow.vercel.app` | Default. Hosted pack builder. |
+| **Local** | `http://127.0.0.1:5173/` | Checkout [aigc-production-flow](https://github.com/smfworks/aigc-production-flow), then `cd app && npm i && npm run dev`. |
 | Local fallback | `http://127.0.0.1:4173/` | After `npm run build && npm run preview` in `app/`. Used only if `:5173` is down and preview answers. |
 
 Local Vite is not started by this plugin. If both loopback ports are closed, the pane says so — it does not fabricate a pack.

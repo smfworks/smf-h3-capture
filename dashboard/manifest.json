@@ -1,7 +1,7 @@
 {
   "name": "smf-h3-capture",
-  "label": "H3 Capture",
-  "description": "Embed the H3 Capture Pack Builder SPA in a right-of-chat pane (live Vercel or local Vite).",
+  "label": "AIGC Flow",
+  "description": "Embed the AIGC Production Flow SPA in a right-of-chat pane (live Vercel or local Vite).",
   "icon": "DeviceCamera",
   "version": "1.0.0",
   "tab": {

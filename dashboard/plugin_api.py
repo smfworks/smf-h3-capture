@@ -1,9 +1,10 @@
 """SMF H3 Capture pane — optional local Vite reachability for Hermes Desktop.
 
 The pack builder lives in the existing Vite/React SPA
-(``smfworks/h3-longform-capture``). This backend does **not** read, write,
-or invent capture packs. It only reports embed URLs and probes the known
-loopback Vite ports (``127.0.0.1:5173`` then ``:4173``).
+(``smfworks/aigc-production-flow``, formerly ``smfworks/h3-longform-capture``).
+This backend does **not** read, write, or invent capture packs. It only
+reports embed URLs and probes the known loopback Vite ports
+(``127.0.0.1:5173`` then ``:4173``).
 
 ``GET /status`` — live / local / preview URLs plus an honest local probe.
 ``GET /health`` — ``{ status: ok, plugin }``.
@@ -29,15 +30,16 @@ PLUGIN = "smf-h3-capture"
 USER_AGENT = "SMF-H3-Capture/1.0 (+https://github.com/smfworks/smf-h3-capture)"
 PROBE_TIMEOUT = 2.0
 
-LIVE_URL = "https://h3-longform-capture.vercel.app"
+LIVE_URL = "https://aigc-production-flow.vercel.app"
 LOCAL_DEV_URL = "http://127.0.0.1:5173/"
 LOCAL_PREVIEW_URL = "http://127.0.0.1:4173/"
-GITHUB_URL = "https://github.com/smfworks/h3-longform-capture"
+GITHUB_URL = "https://github.com/smfworks/aigc-production-flow"
 BIBLE_URL = "https://www.smfclearinghouse.com/blog/2026-09-17-h3-longform-capture-bible"
 PACK_KEY = "smf.h3-longform-capture.pack.v2"
 PACK_NOTE = (
     "Packs stay in the SPA browser localStorage key "
-    "smf.h3-longform-capture.pack.v2. This pane does not read or sync them."
+    "smf.h3-longform-capture.pack.v2 as shipped by aigc-production-flow. "
+    "This pane does not read or sync them."
 )
 
 HttpGetter = Callable[[str, Optional[Dict[str, str]]], Tuple[int, str, Dict[str, str]]]

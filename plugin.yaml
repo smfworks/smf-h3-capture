@@ -1,5 +1,5 @@
 name: smf-h3-capture
 version: "1.0"
-description: Hermes Desktop pane — embeds the H3 Capture Pack Builder SPA (live or local Vite).
+description: Hermes Desktop pane — embeds the AIGC Production Flow SPA (live or local Vite).
 author: SMF Works
 kind: standalone
