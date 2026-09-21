@@ -46,6 +46,10 @@ def test_desktop_plugin_embeds_live_and_local_urls():
     assert "from '@hermes/plugin-sdk'" in js
     assert "jsx" in js and "jsxs" in js
     assert "iframe" in js
+    assert (
+        "const IFRAME_SANDBOX = 'allow-scripts allow-same-origin allow-forms allow-popups allow-downloads allow-modals'"
+        in js
+    )
     assert "Live" in js and "Local" in js
     assert "does not sync" in js or "does not invent" in js
     assert ".$iframeNonce.get(" not in js
