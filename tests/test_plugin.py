@@ -1,4 +1,4 @@
-"""Smoke + honesty tests for the H3 Capture Hermes pane.
+"""Smoke + honesty tests for the SMF H3 Capture Hermes pane (AIGC Production Flow).
 
 Fixture-safe: no network, no invented pack JSON, no Vite process.
 """
@@ -19,7 +19,7 @@ def test_plugin_yaml_identity():
     assert "name: smf-h3-capture" in yaml
     assert "author: SMF Works" in yaml
     assert "kind: standalone" in yaml
-    assert "H3 Capture" in yaml
+    assert "AIGC Production Flow" in yaml
 
 
 def test_desktop_plugin_embeds_live_and_local_urls():
@@ -30,14 +30,18 @@ def test_desktop_plugin_embeds_live_and_local_urls():
     assert "PALETTE_AREA" in js
     assert "ROUTES_AREA" in js
     assert "placement: 'right'" in js
-    assert "Open H3 Capture" in js
-    assert "Open H3 Capture pane" in js
-    assert "https://h3-longform-capture.vercel.app" in js
+    assert "Open AIGC Production Flow" in js
+    assert "Open AIGC Production Flow pane" in js
+    assert "https://aigc-production-flow.vercel.app" in js
     assert "http://127.0.0.1:5173/" in js
     assert "http://127.0.0.1:4173/" in js
-    assert "https://github.com/smfworks/h3-longform-capture" in js
+    assert "https://github.com/smfworks/aigc-production-flow" in js
     assert "smf.h3-longform-capture.pack.v2" in js
-    assert "H3 Capture Pack" in js
+    assert "as shipped by aigc-production-flow" in js
+    assert "AIGC Production Flow" in js
+    assert "AIGC Flow" in js
+    assert "h3-longform-capture.vercel.app" not in js
+    assert "github.com/smfworks/h3-longform-capture" not in js
     assert "from 'react/jsx-runtime'" in js
     assert "from '@hermes/plugin-sdk'" in js
     assert "jsx" in js and "jsxs" in js
@@ -90,6 +94,7 @@ def test_local_url_allowlist():
     assert api.local_url_allowed("http://127.0.0.1:4173/") is True
     assert api.local_url_allowed("http://localhost:5173/") is True
     assert api.local_url_allowed("http://127.0.0.1:3000/") is False
+    assert api.local_url_allowed("https://aigc-production-flow.vercel.app") is False
     assert api.local_url_allowed("https://h3-longform-capture.vercel.app") is False
     assert api.local_url_allowed("http://evil.example:5173/") is False
     assert api.local_url_allowed("http://user:pass@127.0.0.1:5173/") is False
@@ -106,7 +111,8 @@ def test_probe_prefers_dev_over_preview():
     payload = api.collect_status(getter=getter, probe=True)
     assert payload["ok"] is True
     assert payload["plugin"] == "smf-h3-capture"
-    assert payload["live_url"] == "https://h3-longform-capture.vercel.app"
+    assert payload["live_url"] == "https://aigc-production-flow.vercel.app"
+    assert payload["github_url"] == "https://github.com/smfworks/aigc-production-flow"
     assert payload["local"]["reachable"] is True
     assert payload["local"]["reachable_url"] == "http://127.0.0.1:5173/"
     assert payload["local"]["dev_reachable"] is True
@@ -151,6 +157,7 @@ def test_probe_skipped_does_not_claim_local_up():
     assert payload["local"]["reachable"] is None
     assert payload["local"]["reachable_url"] is None
     assert payload["pack_key"] == "smf.h3-longform-capture.pack.v2"
+    assert "as shipped by aigc-production-flow" in payload["pack_note"]
     assert "does not read or sync" in payload["pack_note"]
 
 
@@ -184,4 +191,8 @@ def test_readme_has_install_oneliner():
     assert "MIT" in md
     assert "http://127.0.0.1:5173/" in md
     assert "http://127.0.0.1:4173/" in md
-    assert "https://h3-longform-capture.vercel.app" in md
+    assert "https://aigc-production-flow.vercel.app" in md
+    assert "https://github.com/smfworks/aigc-production-flow" in md
+    assert "smf.h3-longform-capture.pack.v2" in md
+    assert "as shipped by aigc-production-flow" in md
+    assert "h3-longform-capture.vercel.app" not in md

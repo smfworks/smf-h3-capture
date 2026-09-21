@@ -1,5 +1,6 @@
 #!/bin/bash
 # One-shot SMF H3 Capture pane install for Hermes Desktop.
+# Plugin id stays smf-h3-capture; the embedded SPA is AIGC Production Flow.
 #
 # Desktop can spawn more than one serve (`--profile default` and the
 # active profile). The JS half loads from $HOME/.hermes/desktop-plugins,
@@ -78,4 +79,4 @@ echo
 echo "DONE. The Python API is not live in this Desktop process."
 echo "Quit Hermes Desktop and launch it again from the menu / packaged Electron --no-sandbox."
 echo "Do not run: hermes desktop"
-echo "Then: Ctrl+K → Open H3 Capture pane."
+echo "Then: Ctrl+K → Open AIGC Production Flow pane."

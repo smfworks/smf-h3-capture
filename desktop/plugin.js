@@ -1,6 +1,7 @@
 /**
- * SMF H3 Capture pane — embed the existing pack-builder SPA.
+ * SMF H3 Capture pane — embed the AIGC Production Flow SPA.
  * Disk plugin: jsx/jsxs only. Never invent pack content.
+ * Plugin id stays smf-h3-capture; product repo is smfworks/aigc-production-flow.
  */
 import {
   Badge,
@@ -26,14 +27,14 @@ import { jsx, jsxs } from 'react/jsx-runtime'
 const ID = 'smf-h3-capture'
 const ROUTE = '/h3-capture'
 
-const LIVE_URL = 'https://h3-longform-capture.vercel.app'
+const LIVE_URL = 'https://aigc-production-flow.vercel.app'
 const LOCAL_DEV_URL = 'http://127.0.0.1:5173/'
 const LOCAL_PREVIEW_URL = 'http://127.0.0.1:4173/'
-const GITHUB_URL = 'https://github.com/smfworks/h3-longform-capture'
+const GITHUB_URL = 'https://github.com/smfworks/aigc-production-flow'
 const BIBLE_URL = 'https://www.smfclearinghouse.com/blog/2026-09-17-h3-longform-capture-bible'
 const PACK_KEY = 'smf.h3-longform-capture.pack.v2'
 const PACK_NOTE =
-  'Packs stay in the SPA’s localStorage (smf.h3-longform-capture.pack.v2). This pane does not sync them.'
+  'Packs stay in the SPA’s localStorage (smf.h3-longform-capture.pack.v2 as shipped by aigc-production-flow). This pane does not sync them.'
 
 const SOURCE_KEY = 'smf-h3-capture.source'
 const IFRAME_SANDBOX = 'allow-scripts allow-same-origin allow-forms allow-popups allow-downloads'
@@ -165,7 +166,7 @@ function Chrome({ source, embedUrl, badge }) {
           jsx(Codicon, { name: 'device-camera', size: 16 }),
           jsx('div', {
             className: 'min-w-0 flex-1 truncate text-sm font-medium tracking-wide',
-            children: 'H3 Capture Pack',
+            children: 'AIGC Production Flow',
           }),
           badge
             ? jsx(Badge, { className: 'shrink-0 text-[0.625rem]', children: badge })
@@ -241,7 +242,7 @@ function EmbedFrame({ url, title }) {
       className: 'flex h-full flex-col items-center justify-center gap-3 p-8',
       children: [
         jsx(ErrorState, {
-          title: 'Could not load H3 Capture',
+          title: 'Could not load AIGC Production Flow',
           description:
             'The iframe did not load ' +
             url +
@@ -277,7 +278,7 @@ function EmbedFrame({ url, title }) {
     key: String(nonce) + ':' + url,
     id: 'smf-h3-capture-frame',
     src: url,
-    title: title || 'H3 Capture Pack',
+    title: title || 'AIGC Production Flow',
     className: 'min-h-0 w-full flex-1 border-0 bg-(--ui-bg)',
     sandbox: IFRAME_SANDBOX,
     allow: 'clipboard-read; clipboard-write',
@@ -291,7 +292,7 @@ function EmbedFrame({ url, title }) {
 function LocalMissing({ onRetry }) {
   const title = 'Local Vite is not reachable'
   const description =
-    'Nothing is listening on http://127.0.0.1:5173/ (npm run dev) or http://127.0.0.1:4173/ (npm run preview) in h3-longform-capture/app. Start Vite there, or switch to Live. This pane does not invent pack content. Quit Hermes Desktop and relaunch from the menu only if you want the optional local-probe badge — Reload desktop plugins is JS only and does not remount plugin_api.'
+    'Nothing is listening on http://127.0.0.1:5173/ (npm run dev) or http://127.0.0.1:4173/ (npm run preview) in aigc-production-flow/app. Start Vite there, or switch to Live. This pane does not invent pack content. Quit Hermes Desktop and relaunch from the menu only if you want the optional local-probe badge — Reload desktop plugins is JS only and does not remount plugin_api.'
   return jsxs('div', {
     className: 'flex h-full flex-col items-center justify-center gap-3 p-8',
     children: [
@@ -430,21 +431,21 @@ function CapturePane({ ctx }) {
             })
           : null,
       jsx(Separator, {}),
-      jsx(EmbedFrame, { url: embedUrl, title: 'H3 Capture Pack' }),
+      jsx(EmbedFrame, { url: embedUrl, title: 'AIGC Production Flow' }),
     ],
   })
 }
 
 export default {
   id: ID,
-  name: 'H3 Capture',
+  name: 'AIGC Flow',
   defaultEnabled: true,
   register(ctx) {
     ctx.registerMany([
       {
         id: 'pane',
         area: PANES_AREA,
-        title: 'H3 Capture Pack',
+        title: 'AIGC Production Flow',
         data: {
           placement: 'right',
           width: '720px',
@@ -455,7 +456,7 @@ export default {
       {
         id: `${ID}-nav`,
         area: SIDEBAR_NAV_AREA,
-        data: { path: ROUTE, label: 'H3 Capture', codicon: 'device-camera' },
+        data: { path: ROUTE, label: 'AIGC Flow', codicon: 'device-camera' },
       },
       {
         id: `${ID}-route`,
@@ -468,8 +469,8 @@ export default {
         area: PALETTE_AREA,
         data: {
           id: `${ID}-open`,
-          label: 'Open H3 Capture',
-          keywords: ['h3', 'capture', 'pack', 'minimax', 'bible'],
+          label: 'Open AIGC Production Flow',
+          keywords: ['aigc', 'production', 'flow', 'h3', 'capture', 'pack', 'minimax', 'bible'],
           run: () => host.navigate(ROUTE),
         },
       },
@@ -478,8 +479,8 @@ export default {
         area: PALETTE_AREA,
         data: {
           id: `${ID}-open-pane`,
-          label: 'Open H3 Capture pane',
-          keywords: ['h3', 'capture', 'pane', 'pack', 'vite'],
+          label: 'Open AIGC Production Flow pane',
+          keywords: ['aigc', 'production', 'flow', 'h3', 'capture', 'pane', 'pack', 'vite'],
           run: () => host.navigate(ROUTE),
         },
       },
